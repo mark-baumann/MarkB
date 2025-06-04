@@ -3,11 +3,11 @@ import React from 'react';
 
 export const Skills = () => {
   const skills = [
-    { name: "Python", level: 90, color: "from-yellow-400 to-yellow-600" },
-    { name: "TypeScript", level: 85, color: "from-blue-400 to-blue-600" },
-    { name: "Java", level: 80, color: "from-red-400 to-red-600" },
-    { name: "Produktmanagement", level: 95, color: "from-purple-400 to-purple-600" },
-    { name: "KI", level: 88, color: "from-green-400 to-green-600" }
+    { name: "Python", level: 90, color: "from-blue-400 to-blue-600" },
+    { name: "TypeScript", level: 85, color: "from-cyan-400 to-cyan-600" },
+    { name: "Java", level: 80, color: "from-indigo-400 to-indigo-600" },
+    { name: "Produktmanagement", level: 95, color: "from-sky-400 to-sky-600" },
+    { name: "KI", level: 88, color: "from-teal-400 to-teal-600" }
   ];
 
   return (
@@ -26,7 +26,7 @@ export const Skills = () => {
             >
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-semibold text-white">{skill.name}</h3>
-                <span className="text-purple-300 font-medium">{skill.level}%</span>
+                <span className="text-blue-300 font-medium">{skill.level}%</span>
               </div>
               <div className="w-full bg-white/20 rounded-full h-3">
                 <div 

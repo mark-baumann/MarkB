@@ -50,18 +50,18 @@ export const Timeline = () => {
 
   const TimelineItem = ({ item, index }: { item: any, index: number }) => (
     <div className="flex items-center mb-8 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-      <div className="flex-shrink-0 w-4 h-4 bg-purple-500 rounded-full border-4 border-white shadow-lg"></div>
+      <div className="flex-shrink-0 w-4 h-4 bg-blue-500 rounded-full border-4 border-white shadow-lg"></div>
       <div className="ml-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 flex-grow hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
           <h3 className="text-xl font-bold text-white">{item.company}</h3>
           <div className="flex items-center gap-2">
-            <span className="text-purple-300 font-medium">{item.period}</span>
+            <span className="text-blue-300 font-medium">{item.period}</span>
             {item.current && (
-              <div className="w-2 h-6 bg-gradient-to-t from-purple-600 to-pink-600 rounded-full"></div>
+              <div className="w-2 h-6 bg-gradient-to-t from-blue-600 to-cyan-600 rounded-full"></div>
             )}
           </div>
         </div>
-        <h4 className="text-lg font-semibold text-purple-300 mb-2">{item.position}</h4>
+        <h4 className="text-lg font-semibold text-blue-300 mb-2">{item.position}</h4>
         <p className="text-white/80">{item.description}</p>
       </div>
     </div>
@@ -75,9 +75,9 @@ export const Timeline = () => {
         </h2>
         
         <div className="mb-16">
-          <h3 className="text-2xl font-bold text-purple-300 mb-8 animate-fade-in">Erfahrung</h3>
+          <h3 className="text-2xl font-bold text-blue-300 mb-8 animate-fade-in">Erfahrung</h3>
           <div className="relative">
-            <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-600 to-pink-600"></div>
+            <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 to-cyan-600"></div>
             {experiences.map((item, index) => (
               <TimelineItem key={index} item={item} index={index} />
             ))}
@@ -85,9 +85,9 @@ export const Timeline = () => {
         </div>
 
         <div>
-          <h3 className="text-2xl font-bold text-purple-300 mb-8 animate-fade-in">Ausbildung</h3>
+          <h3 className="text-2xl font-bold text-blue-300 mb-8 animate-fade-in">Ausbildung</h3>
           <div className="relative">
-            <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-600 to-pink-600"></div>
+            <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 to-cyan-600"></div>
             {education.map((item, index) => (
               <TimelineItem key={index + experiences.length} item={item} index={index + experiences.length} />
             ))}

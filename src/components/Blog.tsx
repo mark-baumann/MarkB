@@ -65,7 +65,7 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
               onClick={() => setSelectedCategory(category)}
               className={`px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 ${
                 selectedCategory === category
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
                   : 'bg-white/10 backdrop-blur-md border border-white/20 text-white/80 hover:bg-white/20'
               }`}
             >
@@ -78,7 +78,7 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-8 animate-fade-in">
             <button 
               onClick={() => setSelectedPost(null)}
-              className="mb-6 text-purple-300 hover:text-white transition-colors duration-300"
+              className="mb-6 text-blue-300 hover:text-white transition-colors duration-300"
             >
               ← Zurück zur Übersicht
             </button>
@@ -97,7 +97,7 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
                 style={{ animationDelay: `${index * 0.1}s` }}
                 onClick={() => setSelectedPost(post)}
               >
-                <div className="h-2 bg-gradient-to-r from-purple-600 to-pink-600"></div>
+                <div className="h-2 bg-gradient-to-r from-blue-600 to-cyan-600"></div>
                 <div className="p-6">
                   <div className="flex items-center gap-4 mb-4 text-sm text-white/60">
                     <div className="flex items-center gap-1">
@@ -111,11 +111,11 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
                     <span>{post.readTime}</span>
                   </div>
                   
-                  <span className="inline-block px-3 py-1 bg-purple-600/30 text-purple-300 rounded-full text-sm border border-purple-500/50 mb-4">
+                  <span className="inline-block px-3 py-1 bg-blue-600/30 text-blue-300 rounded-full text-sm border border-blue-500/50 mb-4">
                     {post.category}
                   </span>
                   
-                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-blue-300 transition-colors duration-300">
                     {post.title}
                   </h3>
                   

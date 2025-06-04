@@ -9,7 +9,7 @@ export const Projects = () => {
       description: "Ein intelligenter Code-Übersetzer, der verschiedene Programmiersprachen ineinander überführt. Entwickelt mit modernsten KI-Technologien für präzise und effiziente Code-Übersetzung.",
       technologies: ["Python", "KI", "Machine Learning", "NLP"],
       link: "https://github.com/mark-baumann/CodeTranslator",
-      gradient: "from-purple-600 to-pink-600"
+      gradient: "from-blue-600 to-cyan-600"
     }
   ];
 
@@ -29,7 +29,7 @@ export const Projects = () => {
             >
               <div className={`h-2 bg-gradient-to-r ${project.gradient}`}></div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors duration-300">
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-300 transition-colors duration-300">
                   {project.title}
                 </h3>
                 <p className="text-white/80 mb-6 leading-relaxed">
@@ -39,7 +39,7 @@ export const Projects = () => {
                   {project.technologies.map((tech) => (
                     <span 
                       key={tech}
-                      className="px-3 py-1 bg-purple-600/30 text-purple-300 rounded-full text-sm border border-purple-500/50"
+                      className="px-3 py-1 bg-blue-600/30 text-blue-300 rounded-full text-sm border border-blue-500/50"
                     >
                       {tech}
                     </span>
@@ -49,7 +49,7 @@ export const Projects = () => {
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-purple-300 hover:text-white transition-colors duration-300"
+                  className="inline-flex items-center gap-2 text-blue-300 hover:text-white transition-colors duration-300"
                 >
                   <ExternalLink size={16} />
                   Projekt ansehen

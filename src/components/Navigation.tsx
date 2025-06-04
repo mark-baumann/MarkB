@@ -43,7 +43,7 @@ export const Navigation = () => {
                   <button
                     key={item}
                     onClick={() => scrollToSection(item.toLowerCase().replace(' ', '-'))}
-                    className="text-white hover:text-purple-300 transition-colors duration-300 text-left py-2"
+                    className="text-white hover:text-blue-300 transition-colors duration-300 text-left py-2"
                   >
                     {item}
                   </button>
@@ -59,10 +59,10 @@ export const Navigation = () => {
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase().replace(' ', '-'))}
-                className="text-white hover:text-purple-300 transition-colors duration-300 relative group"
+                className="text-white hover:text-blue-300 transition-colors duration-300 relative group"
               >
                 {item}
-                <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-purple-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </button>
             ))}
           </div>
