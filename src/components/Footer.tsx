@@ -3,10 +3,10 @@ import React from 'react';
 
 export const Footer = () => {
   return (
-    <footer className="py-12 px-6 border-t border-white/20 dark:border-white/20 border-gray-200">
+    <footer className="py-12 px-6 border-t border-gray-300 dark:border-white/20 bg-gray-100 dark:bg-black transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <div className="text-center">
-          <h4 className="text-lg font-semibold text-black dark:text-white mb-6">Impressum</h4>
+          <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Impressum</h4>
           <div className="text-gray-700 dark:text-white/70 space-y-3 text-sm max-w-2xl mx-auto">
             <p><strong>Angaben gemäß § 5 TMG:</strong></p>
             <div className="space-y-1">

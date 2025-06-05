@@ -52,9 +52,9 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
   const [selectedPost, setSelectedPost] = useState(null);
 
   return (
-    <section id="blog" className="py-20 px-6">
+    <section id="blog" className="py-20 px-6 bg-gray-50 dark:bg-black transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-16 animate-fade-in">
+        <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-16 animate-fade-in">
           Blog
         </h2>
         
@@ -66,7 +66,7 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
               className={`px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 ${
                 selectedCategory === category
                   ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
-                  : 'bg-white/10 backdrop-blur-md border border-white/20 text-white/80 hover:bg-white/20'
+                  : 'bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 text-gray-800 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-white/20 shadow-sm'
               }`}
             >
               {category}
@@ -75,15 +75,15 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
         </div>
 
         {selectedPost ? (
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-8 animate-fade-in">
+          <div className="bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 rounded-xl p-8 animate-fade-in shadow-lg">
             <button 
               onClick={() => setSelectedPost(null)}
-              className="mb-6 text-blue-300 hover:text-white transition-colors duration-300"
+              className="mb-6 text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-white transition-colors duration-300"
             >
               ← Zurück zur Übersicht
             </button>
-            <div className="prose prose-invert max-w-none">
-              <div className="whitespace-pre-line text-white/90 leading-relaxed">
+            <div className="prose prose-gray dark:prose-invert max-w-none">
+              <div className="whitespace-pre-line text-gray-800 dark:text-white/90 leading-relaxed">
                 {selectedPost.content}
               </div>
             </div>
@@ -93,13 +93,13 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
             {filteredPosts.map((post, index) => (
               <article 
                 key={post.title}
-                className="animate-fade-in bg-white/10 backdrop-blur-md border border-white/20 rounded-xl overflow-hidden hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer group"
+                className="animate-fade-in bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 rounded-xl overflow-hidden hover:bg-gray-50 dark:hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer group shadow-lg hover:shadow-xl"
                 style={{ animationDelay: `${index * 0.1}s` }}
                 onClick={() => setSelectedPost(post)}
               >
                 <div className="h-2 bg-gradient-to-r from-blue-600 to-cyan-600"></div>
                 <div className="p-6">
-                  <div className="flex items-center gap-4 mb-4 text-sm text-white/60">
+                  <div className="flex items-center gap-4 mb-4 text-sm text-gray-600 dark:text-white/60">
                     <div className="flex items-center gap-1">
                       <Calendar size={14} />
                       {post.date}
@@ -111,15 +111,15 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
                     <span>{post.readTime}</span>
                   </div>
                   
-                  <span className="inline-block px-3 py-1 bg-blue-600/30 text-blue-300 rounded-full text-sm border border-blue-500/50 mb-4">
+                  <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-600/30 text-blue-700 dark:text-blue-300 rounded-full text-sm border border-blue-200 dark:border-blue-500/50 mb-4">
                     {post.category}
                   </span>
                   
-                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-blue-300 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300">
                     {post.title}
                   </h3>
                   
-                  <p className="text-white/80 leading-relaxed">
+                  <p className="text-gray-700 dark:text-white/80 leading-relaxed">
                     {post.excerpt}
                   </p>
                 </div>
@@ -129,7 +129,7 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
         )}
         
         {filteredPosts.length === 0 && (
-          <div className="text-center text-white/60 py-12">
+          <div className="text-center text-gray-600 dark:text-white/60 py-12">
             Keine Artikel in dieser Kategorie gefunden.
           </div>
         )}
