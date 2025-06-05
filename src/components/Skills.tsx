@@ -11,9 +11,9 @@ export const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="py-20 px-6">
+    <section id="expertise" className="py-20 px-6 bg-white dark:bg-black transition-colors duration-300">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-16 animate-fade-in">
+        <h2 className="text-4xl md:text-5xl font-bold text-center text-black dark:text-white mb-16 animate-fade-in">
           Expertise
         </h2>
         
@@ -21,14 +21,14 @@ export const Skills = () => {
           {skills.map((skill, index) => (
             <div 
               key={skill.name} 
-              className="animate-fade-in bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:scale-105"
+              className="animate-fade-in bg-gray-100 dark:bg-white/10 backdrop-blur-md border border-gray-200 dark:border-white/20 rounded-xl p-6 hover:bg-gray-200 dark:hover:bg-white/20 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-semibold text-white">{skill.name}</h3>
-                <span className="text-blue-300 font-medium">{skill.level}%</span>
+                <h3 className="text-xl font-semibold text-black dark:text-white">{skill.name}</h3>
+                <span className="text-blue-600 dark:text-blue-300 font-medium">{skill.level}%</span>
               </div>
-              <div className="w-full bg-white/20 rounded-full h-3">
+              <div className="w-full bg-gray-300 dark:bg-white/20 rounded-full h-3">
                 <div 
                   className={`h-3 bg-gradient-to-r ${skill.color} rounded-full transition-all duration-1000 ease-out`}
                   style={{ 

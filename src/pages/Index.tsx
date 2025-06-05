@@ -6,18 +6,21 @@ import { Projects } from "@/components/Projects";
 import { Blog } from "@/components/Blog";
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-black text-white">
-      <Navigation />
-      <Hero />
-      <Timeline />
-      <Skills />
-      <Projects />
-      <Blog />
-      <Footer />
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white transition-colors duration-300">
+        <Navigation />
+        <Hero />
+        <Timeline />
+        <Skills />
+        <Projects />
+        <Blog />
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 };
 

@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -31,15 +33,15 @@ export const Navigation = () => {
         <div className="relative">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="bg-white/10 backdrop-blur-md border border-white/20 rounded-full p-3 text-white hover:bg-white/20 transition-all duration-300"
+            className="bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 rounded-full p-3 text-white hover:bg-white/20 transition-all duration-300"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           
           {isOpen && (
-            <div className="absolute top-16 right-0 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 min-w-[200px] animate-fade-in">
+            <div className="absolute top-16 right-0 bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 min-w-[200px] animate-fade-in">
               <div className="flex flex-col space-y-3">
-                {['Über mich', 'Werdegang', 'Skills', 'Projekte', 'Blog'].map((item, index) => (
+                {['Über mich', 'Werdegang', 'Expertise', 'Projekte', 'Blog'].map((item, index) => (
                   <button
                     key={item}
                     onClick={() => scrollToSection(item.toLowerCase().replace(' ', '-'))}
@@ -48,14 +50,23 @@ export const Navigation = () => {
                     {item}
                   </button>
                 ))}
+                <div className="pt-3 border-t border-white/20">
+                  <button
+                    onClick={toggleTheme}
+                    className="flex items-center gap-2 text-white hover:text-blue-300 transition-colors duration-300 py-2"
+                  >
+                    {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                    {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                  </button>
+                </div>
               </div>
             </div>
           )}
         </div>
       ) : (
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-8 py-4 animate-fade-in">
-          <div className="flex space-x-8">
-            {['Über mich', 'Werdegang', 'Skills', 'Projekte', 'Blog'].map((item, index) => (
+        <div className="bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-8 py-4 animate-fade-in">
+          <div className="flex items-center space-x-8">
+            {['Über mich', 'Werdegang', 'Expertise', 'Projekte', 'Blog'].map((item, index) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(item.toLowerCase().replace(' ', '-'))}
@@ -65,6 +76,13 @@ export const Navigation = () => {
                 <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </button>
             ))}
+            <button
+              onClick={toggleTheme}
+              className="text-white hover:text-blue-300 transition-colors duration-300 p-2 rounded-full hover:bg-white/10"
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
           </div>
         </div>
       )}

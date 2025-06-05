@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark';
@@ -6,18 +7,18 @@ const ThemeContext = createContext<{
   theme: Theme;
   toggleTheme: () => void;
 }>({
-  theme: 'light',
+  theme: 'dark',
   toggleTheme: () => {},
 });
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark');
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as Theme | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    const initialTheme = savedTheme || 'dark'; // Default to dark mode
     setTheme(initialTheme);
+    document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(initialTheme);
   }, []);
 
