@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Calendar, User, Edit, Save, X } from 'lucide-react';
 import { useAuth } from './Auth';
@@ -129,63 +130,106 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white animate-fade-in">
             Blog
           </h2>
-          {isAuthenticated && (
+          {isAuthenticated && !selectedPost && (
             <Button onClick={logout} variant="outline" size="sm">
               Abmelden
             </Button>
           )}
         </div>
         
-        <div className="flex flex-wrap justify-center gap-4 mb-12 animate-fade-in">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 ${
-                selectedCategory === category
-                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
-                  : 'bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 text-gray-800 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-white/20 shadow-sm'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
+        {!selectedPost && (
+          <div className="flex flex-wrap justify-center gap-4 mb-12 animate-fade-in">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 ${
+                  selectedCategory === category
+                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
+                    : 'bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 text-gray-800 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-white/20 shadow-sm'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        )}
 
         {selectedPost ? (
-          <div className="bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 rounded-xl p-8 animate-fade-in shadow-lg max-w-4xl mx-auto">
-            <button 
-              onClick={() => setSelectedPost(null)}
-              className="mb-6 text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-white transition-colors duration-300"
-            >
-              ← Zurück zur Übersicht
-            </button>
-            
-            <div className="mb-6">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                {selectedPost.title}
-              </h1>
+          <div className="bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 rounded-xl p-8 animate-fade-in shadow-lg max-w-4xl mx-auto relative">
+            <div className="flex justify-between items-start mb-6">
+              <button 
+                onClick={() => {
+                  setSelectedPost(null);
+                  setEditingPost(null);
+                }}
+                className="text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-white transition-colors duration-300"
+              >
+                ← Zurück zur Übersicht
+              </button>
               
-              <div className="flex items-center gap-4 mb-6 text-sm text-gray-600 dark:text-white/60">
-                <div className="flex items-center gap-1">
-                  <Calendar size={14} />
-                  {selectedPost.date}
+              <Button
+                onClick={() => handleEditClick(blogPosts.findIndex(post => post.title === selectedPost.title))}
+                variant="ghost"
+                size="sm"
+                className="p-2"
+              >
+                <Edit size={16} />
+              </Button>
+            </div>
+            
+            {editingPost === blogPosts.findIndex(post => post.title === selectedPost.title) ? (
+              <div className="space-y-4">
+                <Input
+                  value={editedTitle}
+                  onChange={(e) => setEditedTitle(e.target.value)}
+                  className="text-3xl font-bold"
+                />
+                <Textarea
+                  value={editedContent}
+                  onChange={(e) => setEditedContent(e.target.value)}
+                  className="min-h-[400px] text-sm"
+                />
+                <div className="flex gap-2">
+                  <Button onClick={() => handleSaveEdit(blogPosts.findIndex(post => post.title === selectedPost.title))} size="sm">
+                    <Save size={16} className="mr-1" />
+                    Speichern
+                  </Button>
+                  <Button onClick={handleCancelEdit} variant="outline" size="sm">
+                    <X size={16} className="mr-1" />
+                    Abbrechen
+                  </Button>
                 </div>
-                <div className="flex items-center gap-1">
-                  <User size={14} />
-                  {selectedPost.author}
-                </div>
-                <span>{selectedPost.readTime}</span>
               </div>
-              
-              <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-600/30 text-blue-700 dark:text-blue-300 rounded-full text-sm border border-blue-200 dark:border-blue-500/50 mb-6">
-                {selectedPost.category}
-              </span>
-            </div>
-            
-            <div className="prose prose-lg max-w-none">
-              {renderContent(selectedPost.content)}
-            </div>
+            ) : (
+              <>
+                <div className="mb-6">
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    {selectedPost.title}
+                  </h1>
+                  
+                  <div className="flex items-center gap-4 mb-6 text-sm text-gray-600 dark:text-white/60">
+                    <div className="flex items-center gap-1">
+                      <Calendar size={14} />
+                      {selectedPost.date}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <User size={14} />
+                      {selectedPost.author}
+                    </div>
+                    <span>{selectedPost.readTime}</span>
+                  </div>
+                  
+                  <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-600/30 text-blue-700 dark:text-blue-300 rounded-full text-sm border border-blue-200 dark:border-blue-500/50 mb-6">
+                    {selectedPost.category}
+                  </span>
+                </div>
+                
+                <div className="prose prose-lg max-w-none">
+                  {renderContent(selectedPost.content)}
+                </div>
+              </>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -197,79 +241,42 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
               >
                 <div className="h-2 bg-gradient-to-r from-blue-600 to-cyan-600"></div>
                 <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-white/60">
-                      <div className="flex items-center gap-1">
-                        <Calendar size={14} />
-                        {post.date}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <User size={14} />
-                        {post.author}
-                      </div>
-                      <span>{post.readTime}</span>
+                  <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-white/60 mb-4">
+                    <div className="flex items-center gap-1">
+                      <Calendar size={14} />
+                      {post.date}
                     </div>
-                    <Button
-                      onClick={() => handleEditClick(index)}
-                      variant="ghost"
-                      size="sm"
-                      className="p-1 h-auto"
-                    >
-                      <Edit size={16} />
-                    </Button>
+                    <div className="flex items-center gap-1">
+                      <User size={14} />
+                      {post.author}
+                    </div>
+                    <span>{post.readTime}</span>
                   </div>
                   
                   <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-600/30 text-blue-700 dark:text-blue-300 rounded-full text-sm border border-blue-200 dark:border-blue-500/50 mb-4">
                     {post.category}
                   </span>
                   
-                  {editingPost === index ? (
-                    <div className="space-y-4">
-                      <Input
-                        value={editedTitle}
-                        onChange={(e) => setEditedTitle(e.target.value)}
-                        className="text-xl font-bold"
-                      />
-                      <Textarea
-                        value={editedContent}
-                        onChange={(e) => setEditedContent(e.target.value)}
-                        className="min-h-[200px] text-sm"
-                      />
-                      <div className="flex gap-2">
-                        <Button onClick={() => handleSaveEdit(index)} size="sm">
-                          <Save size={16} className="mr-1" />
-                          Speichern
-                        </Button>
-                        <Button onClick={handleCancelEdit} variant="outline" size="sm">
-                          <X size={16} className="mr-1" />
-                          Abbrechen
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <h3 
-                        className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300 cursor-pointer"
-                        onClick={() => setSelectedPost(post)}
-                      >
-                        {post.title}
-                      </h3>
-                      
-                      <p 
-                        className="text-gray-700 dark:text-white/80 leading-relaxed cursor-pointer"
-                        onClick={() => setSelectedPost(post)}
-                      >
-                        {post.excerpt}
-                      </p>
-                    </>
-                  )}
+                  <h3 
+                    className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300 cursor-pointer"
+                    onClick={() => setSelectedPost(post)}
+                  >
+                    {post.title}
+                  </h3>
+                  
+                  <p 
+                    className="text-gray-700 dark:text-white/80 leading-relaxed cursor-pointer"
+                    onClick={() => setSelectedPost(post)}
+                  >
+                    {post.excerpt}
+                  </p>
                 </div>
               </article>
             ))}
           </div>
         )}
         
-        {filteredPosts.length === 0 && (
+        {filteredPosts.length === 0 && !selectedPost && (
           <div className="text-center text-gray-600 dark:text-white/60 py-12">
             Keine Artikel in dieser Kategorie gefunden.
           </div>
