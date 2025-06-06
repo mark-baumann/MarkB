@@ -1,13 +1,20 @@
-
 import React, { useState } from 'react';
-import { Calendar, User } from 'lucide-react';
+import { Calendar, User, Edit, Save, X } from 'lucide-react';
+import { useAuth } from './Auth';
+import { Button } from './ui/button';
+import { Textarea } from './ui/textarea';
+import { Input } from './ui/input';
 
 export const Blog = () => {
+  const { isAuthenticated, setShowLoginDialog, logout } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState('Alle');
+  const [editingPost, setEditingPost] = useState<number | null>(null);
+  const [editedContent, setEditedContent] = useState('');
+  const [editedTitle, setEditedTitle] = useState('');
   
   const categories = ['Alle', 'Datenstrukturen', 'KI', 'Web Development', 'Python'];
   
-  const blogPosts = [
+  const [blogPosts, setBlogPosts] = useState([
     {
       title: "AVL-Bäume: Selbstbalancierende Binärbäume verstehen",
       excerpt: "AVL-Bäume sind eine faszinierende Datenstruktur, die automatisch für Balance sorgt. In diesem Artikel erkläre ich die Grundlagen, Rotationen und praktische Anwendungen.",
@@ -41,13 +48,42 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
       author: "Mark Baumann",
       readTime: "5 min"
     }
-  ];
+  ]);
 
   const filteredPosts = selectedCategory === 'Alle' 
     ? blogPosts 
     : blogPosts.filter(post => post.category === selectedCategory);
 
   const [selectedPost, setSelectedPost] = useState(null);
+
+  const handleEditClick = (index: number) => {
+    if (!isAuthenticated) {
+      setShowLoginDialog(true);
+      return;
+    }
+    setEditingPost(index);
+    setEditedTitle(blogPosts[index].title);
+    setEditedContent(blogPosts[index].content);
+  };
+
+  const handleSaveEdit = (index: number) => {
+    const updatedPosts = [...blogPosts];
+    updatedPosts[index] = {
+      ...updatedPosts[index],
+      title: editedTitle,
+      content: editedContent
+    };
+    setBlogPosts(updatedPosts);
+    setEditingPost(null);
+    setEditedContent('');
+    setEditedTitle('');
+  };
+
+  const handleCancelEdit = () => {
+    setEditingPost(null);
+    setEditedContent('');
+    setEditedTitle('');
+  };
 
   const renderContent = (content) => {
     return content.split('\n').map((line, index) => {
@@ -89,9 +125,16 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
   return (
     <section id="blog" className="py-20 px-6 bg-gray-50 dark:bg-black transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-16 animate-fade-in">
-          Blog
-        </h2>
+        <div className="flex justify-between items-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white animate-fade-in">
+            Blog
+          </h2>
+          {isAuthenticated && (
+            <Button onClick={logout} variant="outline" size="sm">
+              Abmelden
+            </Button>
+          )}
+        </div>
         
         <div className="flex flex-wrap justify-center gap-4 mb-12 animate-fade-in">
           {categories.map((category) => (
@@ -149,35 +192,77 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
             {filteredPosts.map((post, index) => (
               <article 
                 key={post.title}
-                className="animate-fade-in bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 rounded-xl overflow-hidden hover:bg-gray-50 dark:hover:bg-white/20 transition-all duration-300 transform hover:scale-105 cursor-pointer group shadow-lg hover:shadow-xl"
+                className="animate-fade-in bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 rounded-xl overflow-hidden hover:bg-gray-50 dark:hover:bg-white/20 transition-all duration-300 transform hover:scale-105 group shadow-lg hover:shadow-xl"
                 style={{ animationDelay: `${index * 0.1}s` }}
-                onClick={() => setSelectedPost(post)}
               >
                 <div className="h-2 bg-gradient-to-r from-blue-600 to-cyan-600"></div>
                 <div className="p-6">
-                  <div className="flex items-center gap-4 mb-4 text-sm text-gray-600 dark:text-white/60">
-                    <div className="flex items-center gap-1">
-                      <Calendar size={14} />
-                      {post.date}
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-white/60">
+                      <div className="flex items-center gap-1">
+                        <Calendar size={14} />
+                        {post.date}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <User size={14} />
+                        {post.author}
+                      </div>
+                      <span>{post.readTime}</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <User size={14} />
-                      {post.author}
-                    </div>
-                    <span>{post.readTime}</span>
+                    <Button
+                      onClick={() => handleEditClick(index)}
+                      variant="ghost"
+                      size="sm"
+                      className="p-1 h-auto"
+                    >
+                      <Edit size={16} />
+                    </Button>
                   </div>
                   
                   <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-600/30 text-blue-700 dark:text-blue-300 rounded-full text-sm border border-blue-200 dark:border-blue-500/50 mb-4">
                     {post.category}
                   </span>
                   
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300">
-                    {post.title}
-                  </h3>
-                  
-                  <p className="text-gray-700 dark:text-white/80 leading-relaxed">
-                    {post.excerpt}
-                  </p>
+                  {editingPost === index ? (
+                    <div className="space-y-4">
+                      <Input
+                        value={editedTitle}
+                        onChange={(e) => setEditedTitle(e.target.value)}
+                        className="text-xl font-bold"
+                      />
+                      <Textarea
+                        value={editedContent}
+                        onChange={(e) => setEditedContent(e.target.value)}
+                        className="min-h-[200px] text-sm"
+                      />
+                      <div className="flex gap-2">
+                        <Button onClick={() => handleSaveEdit(index)} size="sm">
+                          <Save size={16} className="mr-1" />
+                          Speichern
+                        </Button>
+                        <Button onClick={handleCancelEdit} variant="outline" size="sm">
+                          <X size={16} className="mr-1" />
+                          Abbrechen
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <h3 
+                        className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300 cursor-pointer"
+                        onClick={() => setSelectedPost(post)}
+                      >
+                        {post.title}
+                      </h3>
+                      
+                      <p 
+                        className="text-gray-700 dark:text-white/80 leading-relaxed cursor-pointer"
+                        onClick={() => setSelectedPost(post)}
+                      >
+                        {post.excerpt}
+                      </p>
+                    </>
+                  )}
                 </div>
               </article>
             ))}
