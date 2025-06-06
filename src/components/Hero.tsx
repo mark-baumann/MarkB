@@ -4,36 +4,13 @@ import { Download } from 'lucide-react';
 
 export const Hero = () => {
   const downloadCV = () => {
-    // Create a simple CV download
-    const cvContent = `
-Mark Baumann - Lebenslauf
-
-ERFAHRUNG:
-• CIB software GmbH (03.2023 - 06.2025) - Produktverantwortlicher
-• MicroNova (08.2022 - 03.2023) - Software Entwickler (Praktikum)
-
-AUSBILDUNG:
-• FOM München (03.2024 - Heute) - Bachelor Wirtschaftsinformatik
-• Semper Bildungswerke Gera (01.2020 - 07.2023) - Fachabitur IT-Assistent
-• CIB software GmbH (09.2017 - 08.2020) - Ausbildung IT-Kaufmann
-
-SKILLS:
-• Python & Web Programmierung
-• TypeScript (Angular)
-• Java
-• Produktmanagement
-• KI
-    `;
-    
-    const blob = new Blob([cvContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Mark_Baumann_CV.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const link = document.createElement('a');
+    link.href = 'https://github.com/mark-baumann/MarkB/raw/main/lebenslauf.pdf';
+    link.download = 'Mark_Baumann_Lebenslauf.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (

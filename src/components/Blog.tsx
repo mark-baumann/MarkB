@@ -11,9 +11,7 @@ export const Blog = () => {
     {
       title: "AVL-Bäume: Selbstbalancierende Binärbäume verstehen",
       excerpt: "AVL-Bäume sind eine faszinierende Datenstruktur, die automatisch für Balance sorgt. In diesem Artikel erkläre ich die Grundlagen, Rotationen und praktische Anwendungen.",
-      content: `# AVL-Bäume: Selbstbalancierende Binärbäume verstehen
-
-AVL-Bäume, benannt nach ihren Erfindern Adelson-Velsky und Landis, sind eine der elegantesten Datenstrukturen in der Informatik. Sie lösen ein fundamentales Problem binärer Suchbäume: die Degeneration zu linearen Listen.
+      content: `AVL-Bäume, benannt nach ihren Erfindern Adelson-Velsky und Landis, sind eine der elegantesten Datenstrukturen in der Informatik. Sie lösen ein fundamentales Problem binärer Suchbäume: die Degeneration zu linearen Listen.
 
 ## Was macht AVL-Bäume besonders?
 
@@ -51,6 +49,43 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
 
   const [selectedPost, setSelectedPost] = useState(null);
 
+  const renderContent = (content) => {
+    return content.split('\n').map((line, index) => {
+      if (line.startsWith('## ')) {
+        return (
+          <h2 key={index} className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
+            {line.replace('## ', '')}
+          </h2>
+        );
+      }
+      if (line.startsWith('- ')) {
+        return (
+          <li key={index} className="text-gray-800 dark:text-white/90 ml-6 mb-2">
+            {line.replace('- ', '')}
+          </li>
+        );
+      }
+      if (line.includes('**') && line.includes('**')) {
+        const parts = line.split('**');
+        return (
+          <p key={index} className="text-gray-800 dark:text-white/90 mb-4 leading-relaxed">
+            {parts.map((part, i) => 
+              i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+            )}
+          </p>
+        );
+      }
+      if (line.trim() === '') {
+        return <br key={index} />;
+      }
+      return (
+        <p key={index} className="text-gray-800 dark:text-white/90 mb-4 leading-relaxed">
+          {line}
+        </p>
+      );
+    });
+  };
+
   return (
     <section id="blog" className="py-20 px-6 bg-gray-50 dark:bg-black transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
@@ -75,17 +110,38 @@ Die Schönheit von AVL-Bäumen liegt in ihrer Selbstregulierung - sie sind ein p
         </div>
 
         {selectedPost ? (
-          <div className="bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 rounded-xl p-8 animate-fade-in shadow-lg">
+          <div className="bg-white dark:bg-white/10 backdrop-blur-md border border-gray-300 dark:border-white/20 rounded-xl p-8 animate-fade-in shadow-lg max-w-4xl mx-auto">
             <button 
               onClick={() => setSelectedPost(null)}
               className="mb-6 text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-white transition-colors duration-300"
             >
               ← Zurück zur Übersicht
             </button>
-            <div className="prose prose-gray dark:prose-invert max-w-none">
-              <div className="whitespace-pre-line text-gray-800 dark:text-white/90 leading-relaxed">
-                {selectedPost.content}
+            
+            <div className="mb-6">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                {selectedPost.title}
+              </h1>
+              
+              <div className="flex items-center gap-4 mb-6 text-sm text-gray-600 dark:text-white/60">
+                <div className="flex items-center gap-1">
+                  <Calendar size={14} />
+                  {selectedPost.date}
+                </div>
+                <div className="flex items-center gap-1">
+                  <User size={14} />
+                  {selectedPost.author}
+                </div>
+                <span>{selectedPost.readTime}</span>
               </div>
+              
+              <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-600/30 text-blue-700 dark:text-blue-300 rounded-full text-sm border border-blue-200 dark:border-blue-500/50 mb-6">
+                {selectedPost.category}
+              </span>
+            </div>
+            
+            <div className="prose prose-lg max-w-none">
+              {renderContent(selectedPost.content)}
             </div>
           </div>
         ) : (

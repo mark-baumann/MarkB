@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ExternalLink } from 'lucide-react';
+import { Github, ExternalLink } from 'lucide-react';
 
 export const Projects = () => {
   const projects = [
@@ -8,7 +8,8 @@ export const Projects = () => {
       title: "CodeTranslator",
       description: "Ein intelligenter Code-Übersetzer, der verschiedene Programmiersprachen ineinander überführt. Entwickelt mit modernsten KI-Technologien für präzise und effiziente Code-Übersetzung.",
       technologies: ["Python", "KI", "Machine Learning", "NLP"],
-      link: "https://github.com/mark-baumann/CodeTranslator",
+      githubLink: "https://github.com/mark-baumann/CodeTranslator",
+      demoLink: "https://translator-code.vercel.app/",
       gradient: "from-blue-600 to-cyan-600"
     }
   ];
@@ -45,15 +46,26 @@ export const Projects = () => {
                     </span>
                   ))}
                 </div>
-                <a 
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-300 hover:text-black dark:hover:text-white transition-colors duration-300"
-                >
-                  <ExternalLink size={16} />
-                  Projekt ansehen
-                </a>
+                <div className="flex gap-4">
+                  <a 
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-300 hover:text-black dark:hover:text-white transition-colors duration-300"
+                  >
+                    <Github size={16} />
+                    Github
+                  </a>
+                  <a 
+                    href={project.demoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-300 hover:text-black dark:hover:text-white transition-colors duration-300"
+                  >
+                    <ExternalLink size={16} />
+                    Demo
+                  </a>
+                </div>
               </div>
             </div>
           ))}
